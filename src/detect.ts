@@ -52,7 +52,10 @@ export const detect = async (providerEndpoint: string) => {
 		await new pQueue({ concurrency: 3 }).addAll(
 			// eslint-disable-next-line functional/functional-parameters
 			blocks.map(([from, to]) => async () =>
-				DEV.queryFilter(transfer, from, to - 1)
+				DEV.queryFilter(transfer, from, to - 1).then((evs) => {
+					console.log(`${from} to ${to}:`, evs.length)
+					return evs
+				})
 			)
 		)
 	)
