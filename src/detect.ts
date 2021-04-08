@@ -66,7 +66,8 @@ export const detect = async (providerEndpoint: string) => {
 	// Merge transaction data and transactionReceipt data into all logs
 	const allTransferLogsWithTransaction = await Promise.all(
 		allTransferLogs.map(async (log) => {
-			const transaction = await log.getTransaction()
+			const transaction = await provider.getTransaction(log.transactionHash)
+			console.log(`transaction ${log.transactionHash}`, transaction.hash)
 			return { ...log, transaction }
 		})
 	)
